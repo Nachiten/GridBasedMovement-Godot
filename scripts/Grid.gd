@@ -7,6 +7,7 @@ var half_tile_size = tile_size / 2.0
 var grid = []
 
 const obstacle = preload("res://scenes/Obstacle.tscn")
+@onready var player: CharacterBody2D = $Player
 
 enum ENTITY_TYPES {PLAYER, OBSTACLE, COLLECTIBLE}
 
@@ -17,7 +18,11 @@ func _ready():
 		for y in range(GRID_SIZE.y):
 			grid[x].append(null)
 
-	# 2. Create obstacle positions
+	# 2. Snap player to the grid
+	var start_pos = update_child_pos(player)
+	player.set_position(start_pos)
+
+	# 3. Create obstacle positions
 	var positions = []
 	for n in range(5):
 		var grid_pos = Vector2(randi() % GRID_SIZE.x, randi() % GRID_SIZE.y)
@@ -25,7 +30,7 @@ func _ready():
 		if not grid_pos in positions:
 			positions.append(grid_pos)
 
-	# 3. Instanciate obstacles
+	# 4. Instanciate obstacles
 	for pos in positions:
 		print(obstacle)
 		var new_obstacle = obstacle.instantiate() as Node2D

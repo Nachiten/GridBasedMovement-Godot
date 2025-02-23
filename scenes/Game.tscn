@@ -19,7 +19,7 @@ script = ExtResource("1_epejt")
 script = ExtResource("2_va1pi")
 
 [node name="Player" type="CharacterBody2D" parent="Grid"]
-position = Vector2(32, 32)
+position = Vector2(23, 7)
 script = ExtResource("3_npsia")
 
 [node name="Sprite" type="Sprite2D" parent="Grid/Player"]

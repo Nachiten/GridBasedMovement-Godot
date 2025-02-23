@@ -8,6 +8,10 @@ var speed = 0
 var type
 var grid
 
+var is_moving = false
+var target_pos = Vector2i()
+var target_direction = Vector2i()
+
 func _ready():
 	grid = get_parent() as TileMap
 
@@ -28,16 +32,25 @@ func _physics_process(delta):
 	elif Input.is_action_pressed("move_right"):
 		direction = Vector2i.RIGHT
 
-	# 2. Set speed
-	if direction != Vector2i():
+	if not is_moving and direction != Vector2i():
+		target_direction = direction
+
+		if grid.is_cell_vacant(get_position(), target_direction):
+			target_pos = grid.update_child_pos(self)
+			is_moving = true
+
+	elif is_moving:
 		speed = MAX_SPEED
+		velocity = speed * target_direction * delta
 
-	if grid.is_cell_vacant(get_position(), direction):
-		var target_pos = grid.update_child_pos(self)
-		set_position(target_pos)
+		var pos = get_position()
+		var distance_to_target = Vector2(abs(target_pos.x - pos.x), abs(target_pos.y - pos.y))
 
-	# 3. Set velocity
-	# velocity = speed * direction.normalized() * delta
+		if abs(velocity.x) > distance_to_target.x:
+			velocity.x = distance_to_target.x * target_direction.x
+			is_moving = false
+		if abs(velocity.y) > distance_to_target.y:
+			velocity.y = distance_to_target.y * target_direction.y
+			is_moving = false
 
-	# 4. Move
-	# move_and_collide(velocity)
+		move_and_collide(velocity)
