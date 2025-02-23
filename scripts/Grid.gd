@@ -28,20 +28,39 @@ func _ready():
 	# 3. Instanciate obstacles
 	for pos in positions:
 		print(obstacle)
-		var new_obstacle = obstacle.instantiate()
-		new_obstacle.position = map_to_local(pos)
+		var new_obstacle = obstacle.instantiate() as Node2D
+		new_obstacle.set_position(map_to_local(pos))
 		grid[pos.x][pos.y] = ENTITY_TYPES.OBSTACLE
 
 		add_child(new_obstacle)
 
+# Return if the cell is vacant
+func is_cell_vacant(pos, direction):
+	var grid_pos = local_to_map(pos) + direction
+
+	var isInsideX = grid_pos.x < GRID_SIZE.x and grid_pos.x >= 0
+	var isInsideY = grid_pos.y < GRID_SIZE.y and grid_pos.y >= 0
+
+	# Trying to go outside the grid
+	if not isInsideX or not isInsideY:
+		return false
+
+	# Return if grid is empty
+	return grid[grid_pos.x][grid_pos.y] == null
 
 
-func is_cell_vacant():
-	# Return true if the cell is vacant, else false
-	pass
+# Move a child to a new position in the grid
+# Returns the new target world position of the child
+func update_child_pos(child_node):
+	# 1. Clear previous grid pos
+	var grid_pos = local_to_map(child_node.get_position())
+	print(grid_pos)
+	grid[grid_pos.x][grid_pos.y] = null
 
+	# 2. Occupy new grid pos
+	var new_grid_pos = grid_pos + child_node.direction
+	grid[new_grid_pos.x][new_grid_pos.y] = child_node.type
 
-func update_child_pos(child, new_pos, direction):
-	# Move a child to a new position in the grid Array
-	# Returns the new target world position of the child
-	pass
+	# 3. Return target position
+	var target_pos = map_to_local(new_grid_pos)
+	return target_pos
