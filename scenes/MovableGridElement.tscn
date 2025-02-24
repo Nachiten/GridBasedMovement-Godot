@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3abip1ky5mpj"]
+
+[ext_resource type="Script" path="res://scripts/MovableGridElement.gd" id="1_bkcf2"]
+
+[node name="MovableGridElement" type="Node"]
+script = ExtResource("1_bkcf2")

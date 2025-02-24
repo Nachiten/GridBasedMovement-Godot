@@ -1,26 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnup128gmh4qs"]
+[gd_scene load_steps=5 format=3 uid="uid://dnup128gmh4qs"]
 
 [ext_resource type="Script" path="res://scripts/Grid.gd" id="1_epejt"]
 [ext_resource type="Script" path="res://scripts/GridVisualizer.gd" id="2_va1pi"]
-[ext_resource type="Script" path="res://scripts/Player.gd" id="3_npsia"]
-[ext_resource type="Texture2D" uid="uid://d4jcqhirc8jg5" path="res://sprites/Player.png" id="4_laei7"]
+[ext_resource type="PackedScene" uid="uid://bfub683smkxy5" path="res://scenes/Player.tscn" id="3_b5jv4"]
 
 [sub_resource type="TileSet" id="TileSet_3pb0g"]
 tile_size = Vector2i(64, 64)
 
 [node name="Game" type="Node"]
 
+[node name="Player" parent="." instance=ExtResource("3_b5jv4")]
+unique_name_in_owner = true
+
 [node name="Grid" type="TileMap" parent="."]
+unique_name_in_owner = true
 tile_set = SubResource("TileSet_3pb0g")
 format = 2
 script = ExtResource("1_epejt")
 
 [node name="GridVisualizer" type="Node2D" parent="Grid"]
 script = ExtResource("2_va1pi")
-
-[node name="Player" type="CharacterBody2D" parent="Grid"]
-position = Vector2(23, 7)
-script = ExtResource("3_npsia")
-
-[node name="Sprite" type="Sprite2D" parent="Grid/Player"]
-texture = ExtResource("4_laei7")

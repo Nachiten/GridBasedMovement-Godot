@@ -1,10 +1,11 @@
 extends Node2D
 
-@onready var grid = get_parent() as TileMap
+@onready var grid: Grid = get_parent()
 
 const LINE_COLOR = Color(255, 255, 255, 0.3)
 const LINE_WIDTH = 2
 var GRID_SIZE
+
 
 func _ready():
 	GRID_SIZE = grid.GRID_SIZE
