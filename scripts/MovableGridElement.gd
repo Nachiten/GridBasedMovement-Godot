@@ -6,6 +6,7 @@ class_name MovableGridElement
 @onready var grid_element: Node2D = $".."
 
 var is_moving = false
+var is_processing_movement = false
 var target_pos = Vector2i()
 var target_direction = Vector2i()
 
@@ -20,7 +21,12 @@ func _physics_process(delta):
 		move(delta)
 
 func start_moving_in_direction(direction):
+	if is_processing_movement:
+		return
+
+	is_processing_movement = true
 	try_push_in_direction(direction)
+	is_processing_movement = false
 
 func try_push_in_direction(direction):
 	target_direction = Vector2(direction)
@@ -38,9 +44,9 @@ func try_push_in_direction(direction):
 		# Get next cell, check if IT can move, recursively
 		var next_grid_element_node = grid.get_node_in_direction(grid_element_position, target_direction)
 		var movableGridElement = next_grid_element_node.get_node_or_null("MovableGridElement")
-		var canMove = movableGridElement.try_push_in_direction(direction)
+		var can_push = movableGridElement.try_push_in_direction(direction)
 
-		return canMove
+		return can_push
 
 	return false
 

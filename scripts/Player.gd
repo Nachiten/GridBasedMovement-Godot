@@ -7,6 +7,7 @@ class_name Player
 
 var move_direction = Vector2i()
 var type
+var is_processing_movement = false
 
 func _ready():
 	type = grid.ENTITY_TYPES.PLAYER
@@ -27,4 +28,9 @@ func _physics_process(delta):
 
 	# If not moving, and pressed some key, start moving
 	if not movable_grid_element.is_moving and move_direction != Vector2i():
+		if is_processing_movement:
+			return
+
+		is_processing_movement = true
 		movable_grid_element.start_moving_in_direction(move_direction)
+		is_processing_movement = false

@@ -5,7 +5,7 @@ class_name Grid
 const GRID_SIZE = Vector2i(10, 10)
 
 var tile_size = tile_set.tile_size.x
-var half_tile_size = tile_size / 2.0
+var half_tile_size = tile_size / 2
 var grid = []
 
 const obstacle = preload("res://scenes/Obstacle.tscn")
@@ -35,7 +35,7 @@ func _ready():
 	# 4. Instanciate obstacles
 	for pos in obstacle_grid_positions:
 		var new_obstacle = obstacle.instantiate() as Node2D
-		new_obstacle.set_position(map_to_local(pos))
+		new_obstacle.set_position(grid_pos_to_world_pos(pos))
 		grid[pos.x][pos.y] = new_obstacle
 
 		add_child(new_obstacle)
@@ -56,7 +56,7 @@ func is_grid_pos_valid(grid_pos):
 
 # Return if the cell is vacant
 func is_cell_vacant(world_pos) -> bool:
-	var grid_pos = local_to_map(world_pos)
+	var grid_pos = world_pos_to_grid_pos(world_pos)
 
 	if not is_grid_pos_valid(grid_pos):
 		return false
@@ -66,7 +66,7 @@ func is_cell_vacant(world_pos) -> bool:
 	return isGridEmpty
 
 func is_cell_movable(world_pos) -> bool:
-	var grid_pos = local_to_map(world_pos)
+	var grid_pos = world_pos_to_grid_pos(world_pos)
 
 	if not is_grid_pos_valid(grid_pos):
 		return false
@@ -76,7 +76,7 @@ func is_cell_movable(world_pos) -> bool:
 	return get_node != null
 
 func get_node_in_direction(world_pos, direction):
-	var grid_pos = local_to_map(world_pos)
+	var grid_pos = world_pos_to_grid_pos(world_pos)
 	var target_grid_pos = Vector2(grid_pos) + Vector2(direction)
 	return grid[target_grid_pos.x][target_grid_pos.y]
 
@@ -87,7 +87,7 @@ func get_node_at_grid_pos(grid_pos):
 # Returns the new target world position of the grid_element
 func move_grid_element_in_direction(grid_element, direction):
 	# 1. Clear previous grid pos
-	var grid_pos = local_to_map(grid_element.get_position())
+	var grid_pos = world_pos_to_grid_pos(grid_element.get_position())
 	grid[grid_pos.x][grid_pos.y] = null
 
 	# 2. Occupy new grid pos
@@ -96,5 +96,13 @@ func move_grid_element_in_direction(grid_element, direction):
 	print(grid_element.name, " moved from: ", grid_pos, " to: ", new_grid_pos)
 
 	# 3. Return target position
-	var target_pos = map_to_local(new_grid_pos)
+	var target_pos = grid_pos_to_world_pos(new_grid_pos)
 	return target_pos
+
+var grid_offset = Vector2(100, 100)
+
+func world_pos_to_grid_pos(world_pos):
+	return local_to_map(world_pos)
+
+func grid_pos_to_world_pos(grid_pos):
+	return map_to_local(grid_pos)
