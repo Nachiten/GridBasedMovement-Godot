@@ -2,16 +2,19 @@ extends TileMap
 
 class_name Grid
 
+const obstacle = preload("res://scenes/Obstacle.tscn")
+
+@onready var player: Player = %Player
+@onready var game_manager: GameManager = get_node("/root/Game/GameManager")
+
 const GRID_SIZE = Vector2i(10, 10)
 
 var tile_size = tile_set.tile_size.x
 var half_tile_size = tile_size / 2
 var grid = []
 
-const obstacle = preload("res://scenes/Obstacle.tscn")
-@onready var player: Player = %Player
-
 enum ENTITY_TYPES {PLAYER, OBSTACLE, COLLECTIBLE}
+
 
 func _ready():
 	# 1. Create the grid Array
@@ -20,27 +23,29 @@ func _ready():
 		for y in range(GRID_SIZE.y):
 			grid[x].append(null)
 
+	game_manager.grid_initialized.emit()
+
 	# 2. Snap player to the grid
-	var start_pos = move_grid_element_in_direction(player, Vector2i(0, 0))
-	player.set_position(start_pos)
+	# var start_pos = move_grid_element_in_direction(player, Vector2i(0, 0))
+	# player.set_position(start_pos)
 
 	# 3. Create obstacle positions
-	var obstacle_grid_positions = []
-	for n in range(5):
-		var grid_pos = Vector2i(randi() % GRID_SIZE.x, randi() % GRID_SIZE.y)
-
-		if not grid_pos in obstacle_grid_positions:
-			obstacle_grid_positions.append(grid_pos)
+	#var obstacle_grid_positions = []
+	#for n in range(5):
+		#var grid_pos = Vector2i(randi() % GRID_SIZE.x, randi() % GRID_SIZE.y)
+#
+		#if not grid_pos in obstacle_grid_positions:
+			#obstacle_grid_positions.append(grid_pos)
 
 	# 4. Instanciate obstacles
-	for pos in obstacle_grid_positions:
-		var new_obstacle = obstacle.instantiate() as Node2D
-		new_obstacle.set_position(grid_pos_to_world_pos(pos))
-		grid[pos.x][pos.y] = new_obstacle
-
-		add_child(new_obstacle)
-
-		print("New Obstacle in: (", pos.x, ", " ,pos.y, "), obstacle: ", new_obstacle.name)
+	#for pos in obstacle_grid_positions:
+		#var new_obstacle = obstacle.instantiate() as Node2D
+		#new_obstacle.set_position(grid_pos_to_world_pos(pos))
+		#grid[pos.x][pos.y] = new_obstacle
+#
+		#add_child(new_obstacle)
+#
+		#print("New Obstacle in: (", pos.x, ", " ,pos.y, "), obstacle: ", new_obstacle.name)
 
 func is_cell_in_direction_vacant(world_pos, direction):
 	return is_cell_vacant(world_pos + direction * tile_size)

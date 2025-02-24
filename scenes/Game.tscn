@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dnup128gmh4qs"]
+[gd_scene load_steps=10 format=3 uid="uid://dnup128gmh4qs"]
 
 [ext_resource type="Script" path="res://scripts/Grid.gd" id="1_epejt"]
 [ext_resource type="Texture2D" uid="uid://bb06bb1tfc1vp" path="res://sprites/Wall.png" id="2_d0r56"]
 [ext_resource type="Script" path="res://scripts/GridVisualizer.gd" id="2_va1pi"]
 [ext_resource type="PackedScene" uid="uid://bfub683smkxy5" path="res://scenes/Player.tscn" id="3_b5jv4"]
+[ext_resource type="PackedScene" uid="uid://b0ttasuy6coe" path="res://scenes/Obstacle.tscn" id="5_a1pb2"]
+[ext_resource type="Script" path="res://scenes/GameManager.gd" id="5_bj2v2"]
+[ext_resource type="PackedScene" uid="uid://begldjb2h8vo6" path="res://scenes/Wall.tscn" id="6_ulkxg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s02bt"]
 texture = ExtResource("2_d0r56")
@@ -18,7 +21,7 @@ sources/0 = SubResource("TileSetAtlasSource_s02bt")
 
 [node name="Grid" type="TileMap" parent="."]
 unique_name_in_owner = true
-position = Vector2(100, 100)
+position = Vector2(64, 64)
 tile_set = SubResource("TileSet_3pb0g")
 format = 2
 layer_0/tile_data = PackedInt32Array(589834, 0, 0, 458762, 0, 0, 393226, 0, 0, 327690, 0, 0, 262154, 0, 0, 196618, 0, 0, 131082, 0, 0, 65546, 0, 0, 10, 0, 0, 524298, 0, 0, 655370, 0, 0, 655369, 0, 0, 655368, 0, 0, 655367, 0, 0, 655366, 0, 0, 655365, 0, 0, 655364, 0, 0, 655363, 0, 0, 655362, 0, 0, 655361, 0, 0, 655360, 0, 0, 720895, 0, 0, 655359, 0, 0, 589823, 0, 0, 524287, 0, 0, 458751, 0, 0, 393215, 0, 0, 327679, 0, 0, 262143, 0, 0, 196607, 0, 0, 131071, 0, 0, 65535, 0, 0, -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, -65528, 0, 0, -65527, 0, 0, -65526, 0, 0)
@@ -26,7 +29,25 @@ script = ExtResource("1_epejt")
 
 [node name="Player" parent="Grid" instance=ExtResource("3_b5jv4")]
 unique_name_in_owner = true
-position = Vector2(0, 0)
+position = Vector2(34, 31)
 
 [node name="GridVisualizer" type="Node2D" parent="Grid"]
 script = ExtResource("2_va1pi")
+
+[node name="Obstacle" parent="Grid" instance=ExtResource("5_a1pb2")]
+position = Vector2(97, 33)
+
+[node name="Obstacle2" parent="Grid" instance=ExtResource("5_a1pb2")]
+position = Vector2(160, 33)
+
+[node name="Obstacle4" parent="Grid" instance=ExtResource("5_a1pb2")]
+position = Vector2(224, 33)
+
+[node name="Obstacle6" parent="Grid" instance=ExtResource("5_a1pb2")]
+position = Vector2(352, 96)
+
+[node name="Wall" parent="Grid" instance=ExtResource("6_ulkxg")]
+position = Vector2(160, 97)
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("5_bj2v2")

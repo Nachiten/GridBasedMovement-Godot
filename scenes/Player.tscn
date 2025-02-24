@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfub683smkxy5"]
+[gd_scene load_steps=6 format=3 uid="uid://bfub683smkxy5"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_bvyxc"]
+[ext_resource type="PackedScene" uid="uid://bflfc7se801qx" path="res://scenes/GridElement.tscn" id="2_4khsy"]
 [ext_resource type="Texture2D" uid="uid://d4jcqhirc8jg5" path="res://sprites/Player.png" id="2_emfra"]
 [ext_resource type="PackedScene" uid="uid://d3abip1ky5mpj" path="res://scenes/MovableGridElement.tscn" id="3_mrsaw"]
 
@@ -10,11 +11,13 @@
 position = Vector2(23, 7)
 script = ExtResource("1_bvyxc")
 
+[node name="GridElement" parent="." instance=ExtResource("2_4khsy")]
+
+[node name="MovableGridElement" parent="." instance=ExtResource("3_mrsaw")]
+
 [node name="UnusedCollision" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_is5cv")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_emfra")
-
-[node name="MovableGridElement" parent="." instance=ExtResource("3_mrsaw")]

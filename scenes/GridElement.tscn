@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bflfc7se801qx"]
+
+[ext_resource type="Script" path="res://scenes/GridElement.gd" id="1_jeuwe"]
+
+[node name="GridElement" type="Node"]
+script = ExtResource("1_jeuwe")
